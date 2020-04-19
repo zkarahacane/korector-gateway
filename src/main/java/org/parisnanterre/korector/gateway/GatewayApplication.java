@@ -21,10 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class GatewayApplication {
 
-
-	@Autowired
-	private TokenRelayGatewayFilterFactory filterFactory;
-
 	@GetMapping("/")
 	public String index(Model model,
 						@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,

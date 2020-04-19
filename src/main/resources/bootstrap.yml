@@ -11,8 +11,6 @@ eureka:
 
 
 spring:
-  application:
-    name: gateway
   cloud:
     gateway:
       default-filters:
@@ -29,25 +27,17 @@ spring:
         - id: client
           uri: lb://client
           predicates:
-            - Path=/resource/**
-          filters:
-            - TokenRelay
+            - Path=/client/**
 
   security:
     oauth2:
       client:
-        registration:
-          gateway:
-            provider: google
-            client-id: 901055275613-eammv8b2mk4bcc4rf541o9e8f675qtqa.apps.googleusercontent.com
-            client-secret: VNf2MWTUPQ2uZ8ZdUSAOXZML
-            authorization-grant-type: authorization_code
-            redirect-uri-template: ${REDIRECT_OAUTH_URI:http://localhost:8080/login/oauth2/code/901055275613-eammv8b2mk4bcc4rf541o9e8f675qtqa.apps.googleusercontent.com}
-            scope: email,profile,openid
         provider:
-          google:
-            authorization-uri: http://accounts.google.com/o/oauth2/v2/auth
-            token-uri: https://www.googleapis.com/oauth2/v4/token
-            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
-            user-name-attribute: email
-            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+          keycloak:
+            issuer-uri: http://localhost:8090/auth/realms/spring-cloud-gateway-realm
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: spring-cloud-gateway-client
+            client-secret: a3feaa43-0df0-485e-b4b7-8cd26e7a9f3f
+
