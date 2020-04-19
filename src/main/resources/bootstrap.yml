@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      routes:
+        - id: teamsModule
+          uri: lb://teams
+          predicates:
+            - Path=/teams/**
+        - id: integrationModule
+          uri: lb://integration
+          predicates:
+            - Path=/integration/**
+        - id: client
+          uri: lb://client
+          predicates:
+            - Path=/resource/**
+          filters:
+            - TokenRelay
+
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway:
+            provider: google
+            client-id: 901055275613-eammv8b2mk4bcc4rf541o9e8f675qtqa.apps.googleusercontent.com
+            client-secret: VNf2MWTUPQ2uZ8ZdUSAOXZML
+            authorization-grant-type: authorization_code
+            redirect-uri-template: ${REDIRECT_OAUTH_URI:http://localhost:8080/login/oauth2/code/901055275613-eammv8b2mk4bcc4rf541o9e8f675qtqa.apps.googleusercontent.com}
+            scope: email,profile,openid
+        provider:
+          google:
+            authorization-uri: http://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
+            user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
+            user-name-attribute: email
+            jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
