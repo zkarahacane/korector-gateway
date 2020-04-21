@@ -22,6 +22,10 @@ spring:
           uri: lb://client
           predicates:
             - Path=/client/**
+        - id: temas
+          uri: lb://teams
+          predicates:
+            - Path=/teams/**
 
   security:
     oauth2:
