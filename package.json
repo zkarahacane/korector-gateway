@@ -1,0 +1,10 @@
+{
+  "name": "korector",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "serve": "cd src/main/korector-front && npm run serve -- --port 3000",
+	"build": "cd src/main/korector-front && npm run build"
+  }
+  }
